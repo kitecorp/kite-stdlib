@@ -1,0 +1,10 @@
+// DnsZone - Abstract DNS zone
+schema DnsZone {
+    string name
+    string comment
+    object tags
+    @cloud(importable)
+    string id
+    @cloud
+    string nameServers
+}

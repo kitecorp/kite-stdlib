@@ -1,0 +1,12 @@
+// Subnet - Abstract network subnet
+schema Subnet {
+    string name
+    string networkId
+    string cidrBlock
+    string availabilityZone
+    object tags
+    @cloud(importable)
+    string id
+    @cloud
+    string state
+}

@@ -1,0 +1,17 @@
+// Server - Abstract compute instance
+schema Server {
+    string name
+    number cpu
+    number memory
+    string image
+    string region
+    object tags
+    @cloud
+    string publicIp
+    @cloud
+    string privateIp
+    @cloud(importable)
+    string id
+    @cloud
+    string state
+}
