@@ -1,8 +1,0 @@
-// DnsRecord - Abstract DNS record
-schema DnsRecord {
-    string zoneId
-    string name
-    string recordType
-    number ttl = 300
-    string[] values
-}
