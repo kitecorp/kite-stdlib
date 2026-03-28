@@ -63,6 +63,40 @@ resource Server backend {
 }
 ```
 
+### Multi-Provider Provisioning (Phase 2)
+
+Provision the same resource to multiple clouds:
+
+```kite
+@provider(["aws", "azure"])
+resource Server backend {
+    name = "api-server"
+    cpu = 4
+    memory = 16
+    image = "ubuntu-22.04"
+}
+```
+
+**State:** Creates two independent state entries (`backend@aws` and `backend@azure`), each with its own lifecycle, cloud IDs, and drift detection. Failures are isolated per provider.
+
+**Cloud properties:** `@cloud` properties return a provider-keyed object when multiple providers are used:
+
+```kite
+// Single provider — direct value
+@provider("aws")
+resource Server single { cpu = 4 }
+var ip = single.publicIp                // "1.2.3.4"
+
+// Multi provider — provider-keyed object
+@provider(["aws", "azure"])
+resource Server multi { cpu = 4 }
+var ips = multi.publicIp                // { aws: "1.2.3.4", azure: "5.6.7.8" }
+var awsIp = multi.publicIp.aws         // "1.2.3.4"
+var azureIp = multi.publicIp.azure     // "5.6.7.8"
+```
+
+User-set properties (`name`, `cpu`, `memory`) are identical across providers since they come from source code. Only `@cloud` properties (assigned by the cloud provider after creation) differ per provider.
+
 ### Default Provider
 
 Configure in `kitefile.yml`:
